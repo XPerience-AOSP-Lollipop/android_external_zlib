@@ -22,9 +22,11 @@ zlib_files := \
 	src/uncompr.c \
 	src/zutil.c
 
+zlib_cflags := -O3 -DUSE_MMAP -DZLIB_CONST
+
 LOCAL_MODULE := libz
 LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -O3 -DUSE_MMAP
+LOCAL_CFLAGS += $(zlib_cflags)
 LOCAL_CFLAGS_arm64 += -mcpu=generic+crc
 LOCAL_SDCLANG_LTO := true
 
@@ -45,7 +47,7 @@ include $(CLEAR_VARS)
 LOCAL_ARM_MODE := arm
 LOCAL_MODULE := libz
 LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -O3 -DUSE_MMAP
+LOCAL_CFLAGS += $(zlib_cflags)
 LOCAL_CFLAGS_arm64 += -mcpu=generic+crc
 LOCAL_SDCLANG_LTO := true
 LOCAL_SRC_FILES := $(zlib_files)
@@ -61,7 +63,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := libz
 LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -O3 -DUSE_MMAP
+LOCAL_CFLAGS += $(zlib_cflags)
 LOCAL_SRC_FILES := $(zlib_files)
 LOCAL_MULTILIB := both
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)
@@ -73,7 +75,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE := libz-host
 LOCAL_MODULE_TAGS := optional
-LOCAL_CFLAGS += -O3 -DUSE_MMAP
+LOCAL_CFLAGS += $(zlib_cflags)
 LOCAL_SRC_FILES := $(zlib_files)
 LOCAL_MULTILIB := both
 LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)
@@ -105,3 +107,7 @@ LOCAL_STATIC_LIBRARIES := libz
 LOCAL_CXX_STL := none
 
 include $(BUILD_HOST_EXECUTABLE)
+
+# Unset local variables
+zlib_files:=
+zlib_cflags:=
